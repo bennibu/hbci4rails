@@ -1,0 +1,23 @@
+<h1>Listing transactions</h1>
+
+<table>
+  <tr>
+    <th>Date</th>
+    <th>From Name</th>
+    <th>From Number</th>
+    <th>From Bank Code</th>
+    <th>Note</th>
+    <th>Amount</th>
+  </tr>
+  <% for transaction in @transactions %>
+    <tr>
+      <td><%= transaction.date %></td>
+      <td><%= transaction.from_name %></td>
+      <td><%= transaction.from_number %></td>
+      <td><%= transaction.from_bank_code %></td>
+      <td><%= simple_format transaction.note %></td>
+      <td><%= transaction.amount %></td>
+    </tr>
+  <% end %>
+</table>
+

@@ -1,0 +1,33 @@
+<p>
+  <b>Name:</b>
+  <%=h @bank_account.name %>
+</p>
+
+<p>
+  <b>Number:</b>
+  <%=h @bank_account.number %>
+</p>
+
+<p>
+  <b>Bank code:</b>
+  <%=h @bank_account.bank_code %>
+</p>
+
+<p>
+  <b>Pin:</b>
+  xxx
+</p>
+
+<p>
+  <b>Passphrase:</b>
+  xxx
+</p>
+
+<p>
+  <b>Passport type:</b>
+  <%=h @bank_account.passport_type %>
+</p>
+
+
+<%= link_to 'Edit', edit_bank_account_path(@bank_account) %> |
+<%= link_to 'Back', bank_accounts_path %>

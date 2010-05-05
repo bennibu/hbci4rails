@@ -1,0 +1,29 @@
+<h1>Listing bank_accounts</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Number</th>
+    <th>Bank code</th>
+    <th>Passport type</th>
+    <th>Token</th>
+  </tr>
+
+<% @bank_accounts.each do |bank_account| %>
+  <tr>
+    <td><%=h bank_account.name %></td>
+    <td><%=h bank_account.number %></td>
+    <td><%=h bank_account.bank_code %></td>
+    <td><%=h bank_account.passport_type %></td>
+    <td><%=h bank_account.token %></td>
+    <td><%= link_to 'Get fresh transactions', transactions_bank_account_path(bank_account) %></td>
+    <td><%= link_to 'Show', bank_account %></td>
+    <td><%= link_to 'Edit', edit_bank_account_path(bank_account) %></td>
+    <td><%= link_to 'Destroy', bank_account, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New bank_account', new_bank_account_path %>

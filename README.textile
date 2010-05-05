@@ -1,0 +1,24 @@
+h1. hbci4rails
+
+hbci4rails ist eine simple RubyOnRails Anwendung, welche die Nutzung von HBCI
+demonstrieren soll.
+
+HBCI ist ein deutscher Standard für die Kommunikation mit Banken. Über HBCI
+können alle denkbaren Bank-Operationen getätigt werden. Z.B.:
+
+* Kontoumsätze anzeigen
+* Überweisungen tätigen
+* Lastschriften in Auftrag geben
+
+Als Bibliothek für das HBCI Protokoll wird "hbci4java":http://hbci4java.kapott.org
+verwendet. Um diese Java-Bibliothek nutzbar zu machen, wird als Ruby Laufzeitumgebung
+"jruby":http://www.jruby.org/ verwendet.
+
+Diese Anwendung beruht auf dem "gist":http://gist.github.com/279513 von djmaze
+und seinem vorangegangen "Blogeintrag":http://www.strahlungsfrei.de/2009/08/03/hbci-banking-mit-jruby-on-rails
+
+h2. Voraussetzungen
+
+# jruby
+# Vor der Konteneinrichtung muss erst ein sog. "Passport" für das entsprechende Konto angelegt werden. Siehe rake task "tools:create_passport"
+
