@@ -1,4 +1,8 @@
 class BankAccountsController < ApplicationController
+
+  skip_before_filter :admin_required, :only => [:transactions]
+  before_filter :authorize_with_token, :only => [:transactions]
+
   # GET /bank_accounts
   # GET /bank_accounts.xml
   def index
@@ -84,13 +88,26 @@ class BankAccountsController < ApplicationController
   end
 
   def transactions
-    @bank_account = BankAccount.find(params[:id])
     start_date = Date.parse(params[:start_date]) if params[:start_date]
     @transactions = @bank_account.get_transactions(start_date)
 
     respond_to do |format|
       format.html
       format.xml  { render :xml => @transactions }
+    end
+  end
+
+  protected
+
+  def authorize_with_token
+    @bank_account = BankAccount.find(params[:id])
+
+    if params[:auth_token]
+      unless params[:auth_token] == @bank_account.token
+        render :text => "Authorization failed", :status => 401 and return
+      end
+    else
+      admin_required
     end
   end
 end

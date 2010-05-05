@@ -1,6 +1,7 @@
 ActionController::Routing::Routes.draw do |map|
   map.resources :bank_accounts, :member => {:transactions => :get}
 
+  map.root :controller => "bank_accounts"
   # The priority is based upon order of creation: first created -> highest priority.
 
   # Sample of regular route:
