@@ -33,7 +33,7 @@ class BankAccount < ActiveRecord::Base
   # * passport_type, passphrase, pin und file kommen in dieser Implementation aus der zugrunde liegenden Tabelle.
   # * Wenn passport_type = "PinTan" ist, wird die pin verwendet.
   # * Wenn passport_type = "RDHNew" ist, wird die Schlüsseldatei aus filename verwendet und mit der passphrase entschlüsselt.
-  def get_transactions(start_date)
+  def get_transactions(start_date = 1.month.ago.to_date, end_date = Date.today)
     HBCIUtils.setParam("client.passport.#{passport_type}.filename", passport_file.path)
     HBCIUtils.setParam("client.passport.#{passport_type}.init", '1')
 
@@ -43,11 +43,8 @@ class BankAccount < ActiveRecord::Base
     my_account = passport.getAccount(number)
 
     job.setParam('my', my_account)
-    # TODO: JavaUtil doesn't return a real java Date object with jruby. So currently this doesn't work.
-#    start_date = start_date || 1.month.ago.to_date
-#    job.setParam('startdate', JavaUtil::Date.new(start_date.year-1900, start_date.month-1, start_date.day))
-#    ruby_enddate = end_date || (Date.today - 1)
-#    job.setParam('enddate', JavaUtil::Date.new(ruby_enddate.year-1900, ruby_enddate.month-1, ruby_enddate.day))
+    job.setParam('startdate', JavaUtil::Date.new(start_date.year-1900, start_date.month-1, start_date.day))
+    job.setParam('enddate', JavaUtil::Date.new(end_date.year-1900, end_date.month-1, end_date.day))
 
     job.addToQueue
 

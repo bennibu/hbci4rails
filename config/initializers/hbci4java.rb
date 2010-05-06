@@ -1,7 +1,6 @@
 require 'java'
 require File.join(RAILS_ROOT,'vendor/hbci4java.jar')
 
-import 'org.jruby.javasupport.JavaUtil'  # TODO: hbci4java except real JavaUtil::Date object. How?
 import 'org.kapott.hbci.manager.HBCIUtils'
 import 'org.kapott.hbci.manager.HBCIUtilsInternal'
 import 'org.kapott.hbci.passport.AbstractHBCIPassport'
@@ -15,6 +14,18 @@ begin
 rescue
   puts "HBCI konnte ncht initialisiert werden!"
 end
+
+# Import JavaUtil::Date class for search params in hbci4java
+class JavaUtil
+  include_class 'java.util.Date'
+
+  class Date
+    def to_date
+      Time.at(getTime / 1000).to_date
+    end
+  end
+end
+
 
 #class HBCIRunnable
 #  include java.lang.Runnable

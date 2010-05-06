@@ -88,7 +88,7 @@ class BankAccountsController < ApplicationController
   end
 
   def transactions
-    start_date = Date.parse(params[:start_date]) if params[:start_date]
+    start_date = params[:start_date] ? Date.parse(params[:start_date]) : 1.month.ago
     @transactions = @bank_account.get_transactions(start_date)
 
     respond_to do |format|
