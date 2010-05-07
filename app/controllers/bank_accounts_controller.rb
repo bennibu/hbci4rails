@@ -100,13 +100,13 @@ class BankAccountsController < ApplicationController
   protected
 
   def authorize_with_token
-    @bank_account = BankAccount.find(params[:id])
-
     if params[:auth_token]
-      unless params[:auth_token] == @bank_account.token
+      @bank_account = BankAccount.find_by_token(params[:auth_token])
+      unless @bank_account
         render :text => "Authorization failed", :status => 401 and return
       end
     else
+      @bank_account = BankAccount.find(params[:id])
       admin_required
     end
   end

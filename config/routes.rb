@@ -1,4 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
+  map.transactions_with_token "/transactions/:auth_token", :controller => "bank_accounts", :action => "transactions"
   map.resources :bank_accounts, :member => {:transactions => :get}
 
   map.root :controller => "bank_accounts"
