@@ -9,21 +9,19 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100504165834) do
+ActiveRecord::Schema.define(:version => 20110127130723) do
 
   create_table "bank_accounts", :force => true do |t|
     t.string   "name"
     t.string   "number"
     t.string   "bank_code"
-    t.string   "pin"
-    t.string   "passphrase"
     t.string   "passport_type"
     t.string   "token"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "passport_file_file_name"
     t.string   "passport_file_content_type"
-    t.integer  "passport_file_file_size"
+    t.integer  "passport_file_file_size",    :limit => 0
     t.datetime "passport_file_updated_at"
   end
 

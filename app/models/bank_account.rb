@@ -1,23 +1,3 @@
-# == Schema Information
-#
-# Table name: bank_accounts
-#
-#  id                         :integer(11)     not null, primary key
-#  name                       :string(255)
-#  number                     :string(255)
-#  bank_code                  :string(255)
-#  pin                        :string(255)
-#  passphrase                 :string(255)
-#  passport_type              :string(255)
-#  token                      :string(255)
-#  created_at                 :datetime
-#  updated_at                 :datetime
-#  passport_file_file_name    :string(255)
-#  passport_file_content_type :string(255)
-#  passport_file_file_size    :integer(10)
-#  passport_file_updated_at   :datetime
-#
-
 class BankAccount < ActiveRecord::Base
 
   PASSPORT_TYPES = %w(PinTan RDHNew)
@@ -25,7 +5,7 @@ class BankAccount < ActiveRecord::Base
   has_attached_file :passport_file,
     :path => ":rails_root/passport_files/:id/:basename.:extension"
 
-  validates_presence_of :number, :bank_code, :pin, :passphrase, :token
+  validates_presence_of :number, :bank_code, :token
 
   before_validation_on_create :set_token
   
@@ -33,7 +13,10 @@ class BankAccount < ActiveRecord::Base
   # * passport_type, passphrase, pin und file kommen in dieser Implementation aus der zugrunde liegenden Tabelle.
   # * Wenn passport_type = "PinTan" ist, wird die pin verwendet.
   # * Wenn passport_type = "RDHNew" ist, wird die Schlüsseldatei aus filename verwendet und mit der passphrase entschlüsselt.
-  def get_transactions(start_date = 1.month.ago.to_date, end_date = Date.today)
+  def get_transactions(pin, passphrase, options = {})
+
+    start_date = options[:start_date] || 1.month.ago.to_date
+    end_date = options[:end_date] || Date.today
     HBCIUtils.setParam("client.passport.#{passport_type}.filename", passport_file.path)
     HBCIUtils.setParam("client.passport.#{passport_type}.init", '1')
 
@@ -63,6 +46,25 @@ class BankAccount < ActiveRecord::Base
   private
 
   def set_token
-    self.token = ActiveSupport::SecureRandom.base64(32).gsub("/","_").gsub(/=+$/,"")
+    self.token = ActiveSupport::SecureRandom.base64(32).gsub(/[^a-zA-Z0-9]/,"")
   end
 end
+
+# == Schema Information
+#
+# Table name: bank_accounts
+#
+#  id                         :integer         not null, primary key
+#  name                       :string(255)
+#  number                     :string(255)
+#  bank_code                  :string(255)
+#  passport_type              :string(255)
+#  token                      :string(255)
+#  created_at                 :datetime
+#  updated_at                 :datetime
+#  passport_file_file_name    :string(255)
+#  passport_file_content_type :string(255)
+#  passport_file_file_size    :integer(0)
+#  passport_file_updated_at   :datetime
+#
+

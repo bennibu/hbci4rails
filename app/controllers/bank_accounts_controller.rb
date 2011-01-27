@@ -91,7 +91,7 @@ class BankAccountsController < ApplicationController
     start_date = params[:start_date] ? Date.parse(params[:start_date]) : 1.month.ago
 
     hbci do
-      @transactions = @bank_account.get_transactions(start_date)
+      @transactions = @bank_account.get_transactions(params[:pin], params[:passphrase], :start_date => start_date)
     end
 
     respond_to do |format|
